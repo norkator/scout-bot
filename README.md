@@ -9,13 +9,17 @@ Table of contents
 * [Infrastructure](#infrastructure)
 * [Install](#install)
 * [Samples](#samples)
+* [Troubleshooting](#troubleshooting)
 * [Hints](#hints)
 
 
 
 Documents
 ============
-Documents for development
+Documents for development.
+
+* Project Google Drive folder:
+    https://drive.google.com/drive/folders/1Bjp6M0aU6s2qkTvNfAAzTgtLijzt2ykQ?usp=sharing
 
 
 Infrastructure
@@ -38,6 +42,15 @@ Running program sample
 ```python
 ...
 ```
+
+Troubleshooting
+============
+
+1. Screen capture does not capture window
+    * See system security and privacy settings for possible permissions.  
+2. Mouse does not move automatically
+    * See system security and privacy settings for possible permissions.  
+
 
 Hints
 ============
