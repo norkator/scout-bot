@@ -9,6 +9,7 @@ Table of contents
 * [Infrastructure](#infrastructure)
 * [Install](#install)
 * [Samples](#samples)
+* [Hints](#hints)
 
 
 
@@ -36,4 +37,13 @@ Running program sample
 
 ```python
 ...
+```
+
+Hints
+============
+Some command hints for python
+
+See installed libraries and their version.
+```shell script
+pip freeze
 ```
