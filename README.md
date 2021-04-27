@@ -21,6 +21,7 @@ Documents for development.
 * Project Google Drive folder:
     https://drive.google.com/drive/folders/1Bjp6M0aU6s2qkTvNfAAzTgtLijzt2ykQ?usp=sharing
 
+Random mouse curve? https://stackoverflow.com/questions/44467329/pyautogui-mouse-movement-with-bezier-curve
 
 Infrastructure
 ============
