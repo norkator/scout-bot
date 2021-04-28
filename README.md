@@ -31,12 +31,26 @@ Infra...
 Install
 ============
 
+Get game window position with `Mouse.py` script. Positions are left top and bottom right corners.
+
+```text
+0,0       X increases -->
++---------------------------+
+|                           | Y increases
+|                           |     |
+|   1920 x 1080 screen      |     |
+|                           |     V
+|                           |
+|                           |
++---------------------------+ 1919, 1079
+```
+
 Define configuration separating them by `;` and defining target strategy.
 
 ```ini
 [bot]
-game_frames=0,80,1100,700;
-strategies=scout;
+game_frames=0,80,1100,700;0,80,1100,700
+strategies=scout;scout
 ```
 
 1. ...
