@@ -31,6 +31,14 @@ Infra...
 Install
 ============
 
+Define configuration separating them by `;` and defining target strategy.
+
+```ini
+[bot]
+game_frames=0,80,1100,700;
+strategies=scout;
+```
+
 1. ...
 2. ...
 
