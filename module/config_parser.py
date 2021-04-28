@@ -37,5 +37,5 @@ def get_games():
             if game_.is_none() is not None:
                 games.append(game_)
         except ValueError as e:
-            print(e)
+            pass
     return games

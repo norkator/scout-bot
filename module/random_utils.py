@@ -1,9 +1,14 @@
+import random
 import math
 
 
-# get random point for x and y pixel count
-def random_point(x_pixels, y_pixels):
-    return 0
+# get random point for x and y pixel ranges
+def random_point(x, y, x2, y2):
+    x_ = int((x + x2) / 2)
+    y_ = int((y + y2) / 2)
+    r1 = random.randint(x_, x_ + 10)
+    r2 = random.randint(y_, y2 + 10)
+    return r1, r2
 
 
 # mouse move helper

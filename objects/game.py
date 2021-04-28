@@ -1,12 +1,13 @@
 class Game(object):
 
     # Class constructor
-    def __init__(self, x, y, x2, y2, strategy):
+    def __init__(self, x, y, x2, y2, strategy, state=0):
         self.x = x  # game window frame
         self.y = y  # game window frame
         self.x2 = x2  # game window frame
         self.y2 = y2  # game window frame
         self.strategy = strategy  # game strategy
+        self.state = state
 
     def print_game(self):
         print(self.x, self.y, self.x2, self.y2, self.strategy)
@@ -25,3 +26,9 @@ class Game(object):
 
     def get_y2(self):
         return self.y2
+
+    def get_state(self):
+        return self.state
+
+    def __setstate__(self, state):
+        self.state = state
