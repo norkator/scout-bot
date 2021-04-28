@@ -34,8 +34,8 @@ def get_games():
                 int(frame_[3]),
                 strategy
             )
-            if game_.print_game() is not None:
+            if game_.is_none() is not None:
                 games.append(game_)
-        except ValueError:
-            None
+        except ValueError as e:
+            print(e)
     return games

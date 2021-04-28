@@ -13,7 +13,7 @@ pyautogui.MINIMUM_SLEEP = 0  # Default: 0.05
 pyautogui.PAUSE = 0  # Default: 0.1
 
 
-def random_mouse_move(target_x, target_y, rnd=500):
+def random_mouse_move(target_x, target_y, rnd=500, duration=0.1):
     cp = random.randint(3, 5)  # Number of control points. Must be at least 2.
     x1, y1 = pyautogui.position()  # Starting position
 
@@ -37,7 +37,6 @@ def random_mouse_move(target_x, target_y, rnd=500):
     points = interpolate.splev(u, tck)
 
     # Move mouse.
-    duration = 0.1
     timeout = duration / len(points[0])
     point_list = zip(*(i.astype(int) for i in points))
     for point in point_list:

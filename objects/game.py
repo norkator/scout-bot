@@ -11,6 +11,9 @@ class Game(object):
     def print_game(self):
         print(self.x, self.y, self.x2, self.y2, self.strategy)
 
+    def is_none(self):
+        return self.x is None
+
     def get_x(self):
         return self.x
 
