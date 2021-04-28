@@ -5,6 +5,8 @@ import os
 
 def start_app():
     games = config_parser.get_games()
+    for game in games:
+        print(game.print_game())
 
     '''
     # window frame capture
