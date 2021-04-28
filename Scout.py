@@ -1,9 +1,11 @@
-from module import template_matcher, frame_capture
+from module import template_matcher, frame_capture, move_mouse
 import pyautogui
 import os
 
 
 def start_app():
+    move_mouse.random_mouse_move(100, 100)
+    '''
     # window frame capture
     window_frame = frame_capture.capture_window_frame(0, 80, 1100, 700, im_show=False)
 
@@ -17,6 +19,7 @@ def start_app():
 
     # move mouse
     pyautogui.moveTo(compass_points[0] + 20, compass_points[1] + 100, 4)
+    '''
 
 
 start_app()
