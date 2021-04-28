@@ -6,8 +6,8 @@ import math
 def random_point(x, y, x2, y2):
     x_ = int((x + x2) / 2)
     y_ = int((y + y2) / 2)
-    r1 = random.randint(x_, x_ + 10)
-    r2 = random.randint(y_, y2 + 10)
+    r1 = random.randint(x_ - 5, x_ + 5)
+    r2 = random.randint(y_ - 5, y_ + 5)
     return r1, r2
 
 

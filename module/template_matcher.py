@@ -35,6 +35,10 @@ def find_matching_position(input_image, to_find_image, methods, plot=False):
             plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
             plt.suptitle(meth)
             plt.show()
+        window_name = "Matcher"
+        cv.moveWindow(window_name, 1430, 65)
+        cv.imshow(window_name, img)
+        cv.waitKey(1)  # no freeze, refreshes for a millisecond
         a = min_loc[0]
         b = min_loc[1]
         c = top_left[0] + w

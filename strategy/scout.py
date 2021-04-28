@@ -39,6 +39,21 @@ def scout(game):
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
         pyautogui.click()
 
+        game.__setstate__(STATE_MAKE_PARTY)
+
+
+    elif game.get_state() is STATE_MAKE_PARTY:
+        tp = feature_matcher(window_frame, 'make_party.png')
+
+        # get randomised clicking point
+        target_offset_x, target_offset_y = random_utils.random_point(
+            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+        )
+
+        # move mouse
+        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+        pyautogui.click()
+
         game.__setstate__(STATE_BEGINNING)
 
 
