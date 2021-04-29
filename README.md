@@ -18,9 +18,9 @@ Documents
 ============
 Documents for development.
 
-* Project Google Drive folder:
+* Project Google Drive folder:  
     https://drive.google.com/drive/folders/1Bjp6M0aU6s2qkTvNfAAzTgtLijzt2ykQ?usp=sharing
-* Random mouse curve possibility
+* Random mouse curve possibility:  
     https://stackoverflow.com/questions/44467329/pyautogui-mouse-movement-with-bezier-curve
 
 Infrastructure
@@ -31,30 +31,27 @@ Infra...
 Install
 ============
 
-Get game window position with `Mouse.py` script. Positions are left top and bottom right corners.
-
-```text
-0,0       X increases -->
-+---------------------------+
-|                           | Y increases
-|                           |     |
-|   1920 x 1080 screen      |     |
-|                           |     V
-|                           |
-|                           |
-+---------------------------+ 1919, 1079
-```
-
-Define configuration separating them by `;` and defining target strategy.
-
-```ini
-[bot]
-game_frames=0,80,1100,700;0,80,1100,700
-strategies=scout;scout
-```
-
-1. ...
-2. ...
+1. Install Python 3.6 https://www.python.org/downloads/release/python-3613/
+2. `pip install -r requirements.txt` to install needed dependencies.
+3. Get game window position with `Mouse.py` script. Positions are left top and bottom right corners.
+    ```text
+    0,0       X increases -->
+    +---------------------------+
+    |                           | Y increases
+    |                           |     |
+    |   1920 x 1080 screen      |     |
+    |                           |     V
+    |                           |
+    |                           |
+    +---------------------------+ 1919, 1079
+    ```
+4. Define configuration separating them by `;` and defining target strategy.
+    ```ini
+    [bot]
+    game_frames=0,80,1100,700;0,80,1100,700
+    strategies=scout;scout
+    ```
+5. Run `Scout.py` 
 
 
 
