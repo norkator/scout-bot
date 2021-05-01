@@ -1,8 +1,11 @@
 from module import frame_capture, color_utils
 import pyautogui
+import random
 import time
 
-tool = [873, 537, 899, 557]  # fishing tool bottom position
+tool = [899, 610, 926, 656]  # fishing tool bottom position
+p = 1200
+p2 = 1022
 
 # Any duration less than this is rounded to 0.0 to instantly move the mouse.
 # pyautogui.MINIMUM_DURATION = 0  # Default: 0.1
@@ -18,9 +21,9 @@ while 1:
     if avg_color < 160:
         print('FISH!')
         # pyautogui.moveTo(x=1082, y=968)
-        pyautogui.moveTo(x=1193, y=947)
-        pyautogui.dragTo(x=1193, y=847, duration=0.2, button='left')  # focus the window
-        pyautogui.moveTo(x=1193, y=947)
+        pyautogui.moveTo(x=p, y=p2)
+        pyautogui.dragTo(x=p, y=p2 - 100, duration=0.2, button='left')  # focus the window
+        pyautogui.moveTo(x=p, y=p2)
         # pyautogui.click(1082, 882, button='left')  # simulate left click
         time.sleep(2)
 
@@ -30,3 +33,9 @@ while 1:
         # pyautogui.dragTo(1082, 882, 0.2, button='left')
         # 1082, y = 968
         # 1082, y = 882)
+    elif random.randint(0, 400) is 18:
+        print('Random swing')
+        pyautogui.moveTo(x=p, y=p2)
+        pyautogui.dragTo(x=p, y=p2 - 100, duration=0.2, button='left')  # focus the window
+        pyautogui.moveTo(x=p, y=p2)
+        time.sleep(2)
