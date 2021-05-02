@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 
 # use template matching to find something from image
-def find_matching_position(input_image, to_find_image, methods, plot=False):
+def find_matching_position(input_image, to_find_image, methods, plot=False, im_show=False):
     # methods = ['cv.TM_CCOEFF', 'cv.TM_CCOEFF_NORMED', 'cv.TM_CCORR',
     # 'cv.TM_CCORR_NORMED', 'cv.TM_SQDIFF', 'cv.TM_SQDIFF_NORMED']
     # img = cv.imread(input_image, 0)
@@ -35,10 +35,11 @@ def find_matching_position(input_image, to_find_image, methods, plot=False):
             plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
             plt.suptitle(meth)
             plt.show()
-        window_name = "Matcher"
-        cv.moveWindow(window_name, 1430, 65)
-        cv.imshow(window_name, img)
-        cv.waitKey(1)  # no freeze, refreshes for a millisecond
+        if im_show:
+            window_name = "Matcher"
+            cv.moveWindow(window_name, 1430, 65)
+            cv.imshow(window_name, img)
+            cv.waitKey(1)  # no freeze, refreshes for a millisecond
         a = min_loc[0]
         b = min_loc[1]
         c = top_left[0] + w

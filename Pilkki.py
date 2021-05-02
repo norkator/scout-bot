@@ -21,7 +21,7 @@ def feature_matcher(input_image, match_image):
     # input_image = os.getcwd() + '/images/' + 'beginning2.png'
     compass_template_image = os.getcwd() + '/images/pilkki/' + match_image
     target_point = template_matcher.find_matching_position(
-        input_image, compass_template_image, ['cv.TM_SQDIFF_NORMED'], plot=False
+        input_image, compass_template_image, ['cv.TM_SQDIFF_NORMED'], plot=False, im_show=False
     )
     print('target point frame: ' + str(target_point))
     return target_point
@@ -48,8 +48,7 @@ while 1:
     window_frame = frame_capture.capture_window_frame_continuous(tp_[0], tp_[1], tp_[2], tp_[3], im_show=False)
     avg_color = color_utils.get_avg_color(window_frame)
     if avg_color < threshold:
-        print('FISH!')
-        # noinspection DuplicatedCode
+        print('Fish!')
         pyautogui.moveTo(x=handle[0], y=handle[1])
         pyautogui.dragTo(x=handle[0], y=handle[1] - 100, duration=0.2, button='left')  # focus the window
         pyautogui.moveTo(x=handle[0], y=handle[1])

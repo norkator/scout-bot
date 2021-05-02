@@ -61,7 +61,7 @@ def feature_matcher(input_image, match_image):
     # input_image = os.getcwd() + '/images/' + 'beginning2.png'
     compass_template_image = os.getcwd() + '/images/' + match_image
     target_point = template_matcher.find_matching_position(
-        input_image, compass_template_image, ['cv.TM_SQDIFF_NORMED'], plot=False
+        input_image, compass_template_image, ['cv.TM_SQDIFF_NORMED'], plot=False, im_show=True
     )
     print('target point frame: ' + str(target_point))
     return target_point
