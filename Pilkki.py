@@ -6,7 +6,7 @@ import time
 import os
 
 # game variables
-threshold = 170  # 160 is fine
+threshold = 190  # 160 is fine
 game = game.Game(x=166, y=187, x2=1441, y2=904, strategy=None)
 
 
@@ -21,7 +21,7 @@ def feature_matcher(input_image, match_image):
     # input_image = os.getcwd() + '/images/' + 'beginning2.png'
     compass_template_image = os.getcwd() + '/images/pilkki/' + match_image
     target_point = template_matcher.find_matching_position(
-        input_image, compass_template_image, ['cv.TM_SQDIFF_NORMED'], plot=False, im_show=False
+        input_image, compass_template_image, ['cv.TM_SQDIFF_NORMED'], plot=True, im_show=False
     )
     print('target point frame: ' + str(target_point))
     return target_point
