@@ -1,5 +1,6 @@
-import cv2 as cv
 from matplotlib import pyplot as plt
+import cv2 as cv
+import os
 
 
 # use template matching to find something from image
@@ -46,3 +47,13 @@ def find_matching_position(input_image, to_find_image, methods, plot=False, im_s
         d = top_left[1] + h
         # print([min_loc[0], min_loc[1], top_left[0] + w, top_left[1] + h])
     return [a, b, c, d]
+
+
+def feature_matcher(input_image, match_image, plot=False, im_show=True):
+    # input_image = os.getcwd() + '/images/' + 'beginning2.png'
+    compass_template_image = os.getcwd() + '/images/' + match_image
+    target_point = find_matching_position(
+        input_image, compass_template_image, ['cv.TM_SQDIFF_NORMED'], plot=plot, im_show=im_show
+    )
+    print('target point frame: ' + str(target_point))
+    return target_point
