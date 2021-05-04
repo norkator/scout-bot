@@ -35,7 +35,7 @@ def scout(game):
         )
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
         pyautogui.click()
-
+        time.sleep(2)
         game.__setstate__(STATE_MAKE_PARTY)
 
     elif game.get_state() is STATE_MAKE_PARTY:
@@ -48,7 +48,7 @@ def scout(game):
 
         # esc out from dialog
         # pyautogui.press('esc')
-        # time.sleep(2)
+        time.sleep(1)
         game.__setstate__(STATE_CAVE_MARKER)
 
     elif game.get_state() is STATE_CAVE_MARKER:
