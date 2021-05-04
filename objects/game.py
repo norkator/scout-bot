@@ -1,7 +1,7 @@
 class Game(object):
 
     # Class constructor
-    def __init__(self, x, y, x2, y2, strategy, state=0):
+    def __init__(self, x, y, x2, y2, strategy, state=1):
         self.x = x  # game window frame
         self.y = y  # game window frame
         self.x2 = x2  # game window frame
