@@ -7,7 +7,7 @@ import os
     # 'cv.TM_CCORR_NORMED', 'cv.TM_SQDIFF', 'cv.TM_SQDIFF_NORMED']
 '''
 
-MIN_MATCH_QUALITY = 0.9
+MIN_MATCH_QUALITY = 0.7
 
 
 # use template matching to find something from image
@@ -41,15 +41,15 @@ def find_matching_position(input_image, to_find_image, matcher_method, plot=Fals
             cv.imshow(window_name, img)
             cv.waitKey(1)  # no freeze, refreshes for a millisecond
 
-        return [min_loc[0], min_loc[1], (top_left[0] + w), (top_left[1] + h)]
+        return [top_left[0], top_left[1], bottom_right[0], bottom_right[1]]
     else:
         return [None, None, None, None]
 
 
-def feature_matcher(input_image, match_image, plot=True, im_show=False):
+def feature_matcher(input_image, match_image, current_state, plot=True, im_show=False):
     compass_template_image = os.getcwd() + '/images/' + match_image
     target_point = find_matching_position(
         input_image, compass_template_image, 'cv.TM_CCOEFF_NORMED', plot=plot, im_show=im_show
     )
-    print('target point frame: ' + str(target_point))
+    print('[ST' + str(current_state) + '] target point frame: ' + str(target_point))
     return target_point

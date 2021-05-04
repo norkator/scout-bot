@@ -21,7 +21,7 @@ if __name__ == '__main__':
     try:
         while 1:
             run_app()
-            time.sleep(2.0)
+            time.sleep(0.5)
     except KeyboardInterrupt:
         print >> sys.stderr, '\nExiting by user request.\n'
         sys.exit(0)
