@@ -46,10 +46,24 @@ def find_matching_position(input_image, to_find_image, matcher_method, plot=Fals
         return [None, None, None, None]
 
 
+# match one image, return matched point
 def feature_matcher(input_image, match_image, current_state, plot=True, im_show=False):
-    compass_template_image = os.getcwd() + '/images/' + match_image
+    template_image = os.getcwd() + '/images/' + match_image
     target_point = find_matching_position(
-        input_image, compass_template_image, 'cv.TM_CCOEFF_NORMED', plot=plot, im_show=im_show
+        input_image, template_image, 'cv.TM_CCOEFF_NORMED', plot=plot, im_show=im_show
     )
     print('[ST' + str(current_state) + '] target point frame: ' + str(target_point))
     return target_point
+
+
+# needs images as array
+def feature_matcher_match_found(input_image, folder, match_images, current_state, plot=True, im_show=False):
+    for match_image in match_images:
+        template_image = os.getcwd() + '/images/' + folder + '/' + match_image
+        tp = find_matching_position(
+            input_image, template_image, 'cv.TM_CCOEFF_NORMED', plot=plot, im_show=im_show
+        )
+        print('[ST' + str(current_state) + '] trying to find match: ' + str(tp))
+        if tp[0] is not None:
+            return True
+    return False

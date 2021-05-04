@@ -12,7 +12,14 @@ STATE_MAKE_PARTY = 3
 STATE_CAVE_MARKER = 4
 STATE_ENTER_CAVE = 5
 STATE_IN_CAVE = 8
+STATE_CAVE_DETECT_OPTIMAL_RAID = 9
+STATE_CAVE_ALARM = 10
+STATE_CAVE_EXIT = 11
 KILL_PROCESS = 666
+
+OPTIMAL_RAIDS = [
+    'raid_1.png'
+]
 
 
 def scout(game):
@@ -77,8 +84,21 @@ def scout(game):
             game.__setstate__(STATE_IN_CAVE)
 
     elif game.get_state() is STATE_IN_CAVE:
-        print('We are in the cave')
-        game.__setstate__(KILL_PROCESS)
+        print('We have eneterd in the cave')
+        game.__setstate__(STATE_CAVE_DETECT_OPTIMAL_RAID)
+
+    elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
+        match_found = template_matcher.feature_matcher_match_found(
+            window_frame, 'find_raid', OPTIMAL_RAIDS, game.get_state(), plot=True
+        )
+        if match_found is True:
+            game.__setstate__(KILL_PROCESS)  # Todo, alarm here
+        else:
+            game.__setstate__(STATE_CAVE_EXIT)
+
+    elif game.get_state() is STATE_CAVE_EXIT:
+        time.sleep(5)
+        game.__setstate__(STATE_BEGINNING)
 
     elif game.get_state() is KILL_PROCESS:
         sys.exit(0)
@@ -90,7 +110,7 @@ def scout_test(game):
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
 
     # compass detection test
-    template_matcher.feature_matcher(window_frame, 'compass.png', game.get_state(), plot=True)
+    # template_matcher.feature_matcher(window_frame, 'compass.png', game.get_state(), plot=True)
 
     # board detection test
     # template_matcher.feature_matcher(window_frame, 'board.png', game.get_state(), plot=True)
@@ -103,6 +123,8 @@ def scout_test(game):
     # template_matcher.feature_matcher(window_frame, 'home_point_1.png', game.get_state(), plot=True)
 
     # template_matcher.feature_matcher(window_frame, 'make_party.png', game.get_state(), plot=True)
+
+    # template_matcher.feature_matcher_match_found(window_frame, 'find_raid', ['raid_1.png'], game.get_state(), plot=True)
 
 
 def cave_enter_success(game):
