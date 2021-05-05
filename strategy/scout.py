@@ -39,13 +39,18 @@ def scout(game):
 
     elif game.get_state() is STATE_CLICK_BOARD:
         tp = template_matcher.feature_matcher(window_frame, 'board.png', game)
-        target_offset_x, target_offset_y = random_utils.random_point(
-            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
-        )
-        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
-        pyautogui.click()
-        time.sleep(2)
-        game.__setstate__(STATE_MAKE_PARTY)
+        if tp[0] is None:
+            tp = template_matcher.feature_matcher(window_frame, 'board_2.png', game)  # try with another board image
+        if tp[0] is not None:
+            target_offset_x, target_offset_y = random_utils.random_point(
+                tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+            )
+            move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+            pyautogui.click()
+            time.sleep(2)
+            game.__setstate__(STATE_MAKE_PARTY)
+        else:
+            find_starting_point(game)
 
     elif game.get_state() is STATE_MAKE_PARTY:
         tp = template_matcher.feature_matcher(window_frame, 'make_party.png', game)
@@ -177,8 +182,25 @@ def home_point_1(game):
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
         pyautogui.click()
         time.sleep(5)
-        print('not implemented right home point yet')
-        game.__setstate__(KILL_PROCESS)
+        find_starting_point(game)
     else:
         print('[E] cannot find home point!!!')
         game.__setstate__(KILL_PROCESS)
+
+
+def find_starting_point(game):
+    print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] trying to find starting point!')
+    window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
+    tp = template_matcher.feature_matcher(window_frame, 'starting_point.png', game)
+    blip1 = os.getcwd() + '/sounds/' + 'blip1.wav'
+    playsound(blip1)
+    if tp[0] is not None:
+        target_offset_x, target_offset_y = random_utils.random_point(
+            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+        )
+        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=300, duration=0.2)
+        pyautogui.click()
+        time.sleep(2)
+        game.__setstate__(STATE_BEGINNING)
+    else:
+        game.__setstate__(STATE_BEGINNING)
