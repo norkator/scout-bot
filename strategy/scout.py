@@ -20,7 +20,8 @@ STATE_CAVE_FINISHED = 12
 KILL_PROCESS = 666
 
 OPTIMAL_RAIDS = [
-    'raid_1.png'
+    'raid_1.png',
+    'raid_2.png'
 ]
 
 
