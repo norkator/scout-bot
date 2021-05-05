@@ -22,9 +22,10 @@ def get_games():
     config = any_config()
     frames = config['game_frames'].split(';')
     strategies = config['strategies'].split(';')
+    names = config['game_names'].split(';')
     if len(frames) is not len(strategies):
         quit('frames and strategies count do not match, check your config.ini')
-    for frame, strategy in zip(frames, strategies):
+    for frame, strategy, name in zip(frames, strategies, names):
         frame_ = frame.split(',')
         try:
             game_ = game.Game(
@@ -32,7 +33,8 @@ def get_games():
                 int(frame_[1]),
                 int(frame_[2]),
                 int(frame_[3]),
-                strategy
+                strategy,
+                name
             )
             if game_.is_none() is not None:
                 games.append(game_)

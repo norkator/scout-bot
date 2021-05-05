@@ -29,7 +29,7 @@ def scout(game):
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
 
     if game.get_state() is STATE_BEGINNING:
-        tp = template_matcher.feature_matcher(window_frame, 'compass.png', game.get_state())
+        tp = template_matcher.feature_matcher(window_frame, 'compass.png', game)
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
         )
@@ -38,7 +38,7 @@ def scout(game):
         game.__setstate__(STATE_CLICK_BOARD)
 
     elif game.get_state() is STATE_CLICK_BOARD:
-        tp = template_matcher.feature_matcher(window_frame, 'board.png', game.get_state())
+        tp = template_matcher.feature_matcher(window_frame, 'board.png', game)
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
         )
@@ -48,7 +48,7 @@ def scout(game):
         game.__setstate__(STATE_MAKE_PARTY)
 
     elif game.get_state() is STATE_MAKE_PARTY:
-        tp = template_matcher.feature_matcher(window_frame, 'make_party.png', game.get_state())
+        tp = template_matcher.feature_matcher(window_frame, 'make_party.png', game)
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
         )
@@ -61,7 +61,7 @@ def scout(game):
         game.__setstate__(STATE_CAVE_MARKER)
 
     elif game.get_state() is STATE_CAVE_MARKER:
-        tp = template_matcher.feature_matcher(window_frame, 'target_point.png', game.get_state())
+        tp = template_matcher.feature_matcher(window_frame, 'target_point.png', game)
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
         )
@@ -72,7 +72,7 @@ def scout(game):
         game.__setstate__(STATE_ENTER_CAVE)
 
     elif game.get_state() is STATE_ENTER_CAVE:
-        tp = template_matcher.feature_matcher(window_frame, 'cave_entrance.png', game.get_state())
+        tp = template_matcher.feature_matcher(window_frame, 'cave_entrance.png', game)
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
         )
@@ -86,12 +86,12 @@ def scout(game):
             game.__setstate__(STATE_IN_CAVE)
 
     elif game.get_state() is STATE_IN_CAVE:
-        print('We have entered in the cave')
+        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] We have entered in the cave')
         game.__setstate__(STATE_CAVE_DETECT_OPTIMAL_RAID)
 
     elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
         match_found = template_matcher.feature_matcher_match_found(
-            window_frame, 'find_raid', OPTIMAL_RAIDS, game.get_state(), plot=True
+            window_frame, 'find_raid', OPTIMAL_RAIDS, game, plot=True
         )
         if match_found is True:
             game.__setstate__(STATE_CAVE_ALARM)
@@ -106,12 +106,13 @@ def scout(game):
         pyautogui.click()
         time.sleep(2)
         window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
-        tp = template_matcher.feature_matcher(window_frame, 'leave_cave.png', game.get_state())
+        tp = template_matcher.feature_matcher(window_frame, 'leave_cave.png', game)
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
         )
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
         pyautogui.click()
+        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] exiting cave')
         time.sleep(5)
         game.__setstate__(STATE_BEGINNING)
 
@@ -138,28 +139,28 @@ def scout_test(game):
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
 
     # compass detection test
-    # template_matcher.feature_matcher(window_frame, 'compass.png', game.get_state(), plot=True)
+    # template_matcher.feature_matcher(window_frame, 'compass.png', game, plot=True)
 
     # board detection test
-    # template_matcher.feature_matcher(window_frame, 'board.png', game.get_state(), plot=True)
+    # template_matcher.feature_matcher(window_frame, 'board.png', game, plot=True)
 
     # failed party
-    # template_matcher.feature_matcher(window_frame, 'failed_party.png', game.get_state(), plot=True)
+    # template_matcher.feature_matcher(window_frame, 'failed_party.png', game, plot=True)
     # 107, 364, 402, 403
 
     # home point 1
-    # template_matcher.feature_matcher(window_frame, 'home_point_1.png', game.get_state(), plot=True)
+    # template_matcher.feature_matcher(window_frame, 'home_point_1.png', game, plot=True)
 
-    # template_matcher.feature_matcher(window_frame, 'make_party.png', game.get_state(), plot=True)
+    # template_matcher.feature_matcher(window_frame, 'make_party.png', game, plot=True)
 
-    # template_matcher.feature_matcher_match_found(window_frame, 'find_raid', ['raid_1.png'], game.get_state(), plot=True)
+    # template_matcher.feature_matcher_match_found(window_frame, 'find_raid', ['raid_1.png'], game, plot=True)
 
-    # template_matcher.feature_matcher(window_frame, 'leave_cave.png', game.get_state(), plot=True)
+    # template_matcher.feature_matcher(window_frame, 'leave_cave.png', game, plot=True)
 
 
 def cave_enter_success(game):
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
-    ef = template_matcher.feature_matcher(window_frame, 'failed_party.png', game.get_state())
+    ef = template_matcher.feature_matcher(window_frame, 'failed_party.png', game)
     if ef[0] is None:
         return True
     else:
@@ -168,7 +169,7 @@ def cave_enter_success(game):
 
 def home_point_1(game):
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
-    tp = template_matcher.feature_matcher(window_frame, 'home_point_1.png', game.get_state())
+    tp = template_matcher.feature_matcher(window_frame, 'home_point_1.png', game)
     if tp[0] is not None:
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y

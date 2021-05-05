@@ -1,5 +1,6 @@
 from module import config_parser
 from strategy import scout
+# import keyboard
 import time
 import sys
 
@@ -8,8 +9,17 @@ games = config_parser.get_games()
 
 def run_app():
     for game in games:
+        # if keyboard.is_pressed('p'):
+        #     print('paused game ' + game.get_game_name())
+        #     game.set_paused(True)
+        #     time.sleep(2)
+        # elif keyboard.is_pressed('r'):
+        #     print('resume game ' + game.get_game_name())
+        #     game.set_paused(False)
+        #     time.sleep(2)
         if game.strategy == 'scout':
-            scout.scout(game)
+            if game.get_paused() is False:
+                scout.scout(game)
         elif game.strategy == 'scout_test':
             scout.scout_test(game)
             sys.exit(0)

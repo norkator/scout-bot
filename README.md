@@ -48,6 +48,7 @@ Install
 4. Define configuration separating them by `;` and defining target strategy.
     ```ini
     [bot]
+    game_names=RUNE1;RUNE2
     game_frames=0,80,1100,700;0,80,1100,700
     strategies=scout;scout
     ```
