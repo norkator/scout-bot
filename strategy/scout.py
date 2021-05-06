@@ -107,7 +107,7 @@ def scout(game):
             #     min_match_quality=0.9, plot=True
             # )
             # if match_found is True:
-            tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game)
+            tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.5)
             if tp[0] is None:
                 game.__setstate__(STATE_CAVE_ALARM)
             else:
@@ -149,24 +149,18 @@ def scout(game):
 def scout_test(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
-
+    # template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.5, plot=True)
     # compass detection test
     # template_matcher.feature_matcher(window_frame, 'compass.png', game, plot=True)
-
     # board detection test
     # template_matcher.feature_matcher(window_frame, 'board.png', game, plot=True)
-
     # failed party
     # template_matcher.feature_matcher(window_frame, 'failed_party.png', game, plot=True)
     # 107, 364, 402, 403
-
     # home point 1
     # template_matcher.feature_matcher(window_frame, 'home_point_1.png', game, plot=True)
-
     # template_matcher.feature_matcher(window_frame, 'make_party.png', game, plot=True)
-
     # template_matcher.feature_matcher_match_found(window_frame, 'find_raid', ['raid__1.png'], game, plot=True)
-
     # template_matcher.feature_matcher(window_frame, 'leave_cave.png', game, plot=True)
 
 
