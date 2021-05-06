@@ -1,6 +1,7 @@
+![scout_bot](./docs/scout_bot.png)
 # Scout Bot
 
-RuneScape scout bot machine vision project.
+RuneScape scout bot machine vision project for scouting.
 
 
 Table of contents
@@ -12,6 +13,8 @@ Table of contents
 * [Troubleshooting](#troubleshooting)
 * [Hints](#hints)
 * [Plugin config](#plugin-config)
+    * [CoX Scouter External](#cox-scouter-external)
+    * [Chambers Of Xeric](#chambers-of-xeric)
 
 
 
@@ -87,12 +90,25 @@ pip freeze
 Plugin config
 ============
 
-![xeric-config](./docs/xeric_config.png)
+CoX Scouter External
+-----
+![cox_scouter_external](./docs/cox_scouter_external.png)
 
+Highlight color code: `#2D251F`
+
+
+Chambers Of Xeric
+-----
+
+
+![chambers_of_xeric](./docs/chambers_of_xeric.png)
+
+Blacklisted rooms:
 ```txt
-Ice demon, Vanguards, thieving,
+Ice demon,Vanguards,thieving,
 ```
 
+Whitelisted rotations:
 ```txt
 Vespula,Tekton,Vasa
 Vasa,Tekton,Vespula
