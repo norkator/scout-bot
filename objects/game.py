@@ -12,7 +12,7 @@ class Game(object):
         self.strategy = strategy  # game strategy
         self.state = state
         self.paused = False
-        self.sleep_millis = None
+        self.sleep_millis = 0
 
     def print_game(self):
         print(self.x, self.y, self.x2, self.y2, self.strategy)
@@ -52,9 +52,9 @@ class Game(object):
 
     def is_sleeping(self):
         current = time_utils.current_millis_time()
-        if current > self.sleep_millis:
-            self.sleep_millis = None
-        return self.sleep_millis is not None
+        if self.sleep_millis is not 0 and current > self.sleep_millis:
+            self.sleep_millis = 0
+        return self.sleep_millis is not 0
 
     def set_sleep(self, seconds):
         self.sleep_millis = time_utils.current_millis_time() + (seconds * 1000)

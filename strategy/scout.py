@@ -20,7 +20,8 @@ STATE_CAVE_FINISHED = 12
 KILL_PROCESS = 666
 
 OPTIMAL_RAIDS = [
-    'raid__1.png', 'raid__2.png', 'raid__3.png', 'raid__4.png', 'raid__5.png', 'raid__6.png', 'raid__7.png', 'raid__8.png',
+    'raid__1.png', 'raid__2.png', 'raid__3.png', 'raid__4.png', 'raid__5.png', 'raid__6.png', 'raid__7.png',
+    'raid__8.png',
     'raid__9.png', 'raid__10.png', 'raid__11.png', 'raid__12.png', 'raid__13.png', 'raid__14.png', 'raid__15.png',
     'raid__16.png', 'raid__17.png', 'raid__18.png', 'raid__19.png', 'raid__20.png'
 ]
@@ -35,12 +36,16 @@ def scout(game):
     else:
         if game.get_state() is STATE_BEGINNING:
             tp = template_matcher.feature_matcher(window_frame, 'compass.png', game)
-            target_offset_x, target_offset_y = random_utils.random_point(
-                tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
-            )
-            move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
-            pyautogui.click()
-            game.__setstate__(STATE_CLICK_BOARD)
+            if tp[0] is None:
+                game.__setstate__(STATE_BEGINNING)
+                play_sound('wpn_select')
+            else:
+                target_offset_x, target_offset_y = random_utils.random_point(
+                    tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+                )
+                move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+                pyautogui.click()
+                game.__setstate__(STATE_CLICK_BOARD)
 
         elif game.get_state() is STATE_CLICK_BOARD:
             tp = template_matcher.feature_matcher(window_frame, 'board.png', game)
@@ -127,12 +132,10 @@ def scout(game):
             game.set_sleep(5)
 
         elif game.get_state() is STATE_CAVE_ALARM:
-            bell = os.getcwd() + '/sounds/' + 'bell.wav'
-            playsound(bell)
-            playsound(bell)
-            playsound(bell)
-            alert = os.getcwd() + '/sounds/' + 'alert.wav'
-            playsound(alert)
+            play_sound('bell.wav')
+            play_sound('bell.wav')
+            play_sound('bell.wav')
+            play_sound('alert.wav')
             game.__setstate__(STATE_CAVE_FINISHED)
 
         elif game.get_state() is STATE_CAVE_FINISHED:
@@ -197,8 +200,7 @@ def find_starting_point(game):
     print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] trying to find starting point!')
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
     tp = template_matcher.feature_matcher(window_frame, 'starting_point.png', game)
-    blip1 = os.getcwd() + '/sounds/' + 'blip1.wav'
-    playsound(blip1)
+    play_sound('blip1.wav')
     if tp[0] is not None:
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
@@ -209,3 +211,8 @@ def find_starting_point(game):
         game.__setstate__(STATE_BEGINNING)
     else:
         game.__setstate__(STATE_BEGINNING)
+
+
+def play_sound(sound_name):
+    alert = os.getcwd() + '/sounds/' + sound_name
+    playsound(alert)
