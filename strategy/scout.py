@@ -104,23 +104,21 @@ def scout(game):
         elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
             match_found = template_matcher.feature_matcher_match_found(
                 window_frame, 'find_raid', OPTIMAL_RAIDS, game,
-                min_match_quality=0.7, plot=True
+                min_match_quality=0.9, plot=True
             )
             if match_found is True:
                 game.__setstate__(STATE_CAVE_ALARM)
             else:
-                time.sleep(5)  # Todo, remote this later!
                 game.__setstate__(STATE_CAVE_EXIT)
 
         elif game.get_state() is STATE_CAVE_EXIT:
-            # this tries to calculate position to leave cave
-            x_p = int(((game.x2 / 2) + game.x) * 60 / 100)
-            y_p = int(((game.y2 / 2) + game.y) * 99 / 100)
-            move_mouse.random_mouse_move(x_p, y_p, rnd=400, duration=0.5)
-            pyautogui.click()
-            time.sleep(2)
+            click_exit_cave(game=game, x_p=60, y_p=99)
             window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
             tp = template_matcher.feature_matcher(window_frame, 'leave_cave.png', game)
+            if tp[0] is None:
+                click_exit_cave(game=game, x_p=80, y_p=99)  # try with another point
+                window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
+                tp = template_matcher.feature_matcher(window_frame, 'leave_cave.png', game)
             target_offset_x, target_offset_y = random_utils.random_point(
                 tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
             )
@@ -215,3 +213,12 @@ def find_starting_point(game):
 def play_sound(sound_name):
     alert = os.getcwd() + '/sounds/' + sound_name
     playsound(alert)
+
+
+# this tries to calculate position to leave cave
+def click_exit_cave(game, x_p=60, y_p=99):
+    x_p = int(((game.x2 / 2) + game.x) * x_p / 100)
+    y_p = int(((game.y2 / 2) + game.y) * y_p / 100)
+    move_mouse.random_mouse_move(x_p, y_p, rnd=400, duration=0.5)
+    pyautogui.click()
+    time.sleep(2)
