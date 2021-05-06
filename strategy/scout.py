@@ -81,7 +81,7 @@ def scout(game):
             move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
             pyautogui.click()
             game.__setstate__(STATE_ENTER_CAVE)
-            game.set_sleep(6)
+            game.set_sleep(7)
 
         elif game.get_state() is STATE_ENTER_CAVE:
             tp = template_matcher.feature_matcher(window_frame, 'cave_entrance.png', game)
@@ -100,6 +100,7 @@ def scout(game):
         elif game.get_state() is STATE_IN_CAVE:
             print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] We have entered in the cave')
             game.__setstate__(STATE_CAVE_DETECT_OPTIMAL_RAID)
+            game.set_sleep(4)
 
         elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
             # match_found = template_matcher.feature_matcher_match_found(
@@ -107,8 +108,8 @@ def scout(game):
             #     min_match_quality=0.9, plot=True
             # )
             # if match_found is True:
-            tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.5)
-            if tp[0] is None:
+            tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.5, plot=True)
+            if tp[0] is None:  # does not find bad raid
                 game.__setstate__(STATE_CAVE_ALARM)
             else:
                 game.__setstate__(STATE_CAVE_EXIT)
@@ -218,4 +219,3 @@ def click_exit_cave(game, x_p=60, y_p=99):
     move_mouse.random_mouse_move(x_p, y_p, rnd=400, duration=0.5)
     pyautogui.click()
     time.sleep(2)
-

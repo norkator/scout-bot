@@ -49,7 +49,8 @@ def find_matching_position(input_image, to_find_image, matcher_method, min_match
 def feature_matcher(input_image, match_image, game, min_match_quality=0.7, plot=False, im_show=False):
     template_image = os.getcwd() + '/images/' + match_image
     target_point = find_matching_position(
-        input_image, template_image, 'cv.TM_CCOEFF_NORMED', plot=plot, im_show=im_show
+        input_image, template_image, 'cv.TM_CCOEFF_NORMED', min_match_quality=min_match_quality, plot=plot,
+        im_show=im_show
     )
     print('[' + game.get_game_name() + '][ST' + str(game.get_state()) + '] target point frame: ' + str(target_point))
     return target_point
