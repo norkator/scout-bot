@@ -65,7 +65,7 @@ def feature_matcher_match_found(input_image, folder, match_images, game,
             min_match_quality=min_match_quality,
             plot=plot, im_show=im_show
         )
-        print('[ST' + str(game.get_state()) + '] trying to find match: ' + str(tp))
+        print('[' + game.get_game_name() + '][ST' + str(game.get_state()) + '] trying to find match: ' + str(tp))
         if tp[0] is not None:
             return True
     return False

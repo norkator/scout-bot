@@ -104,7 +104,7 @@ def scout(game):
         elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
             match_found = template_matcher.feature_matcher_match_found(
                 window_frame, 'find_raid', OPTIMAL_RAIDS, game,
-                min_match_quality=0.8, plot=True
+                min_match_quality=0.7, plot=True
             )
             if match_found is True:
                 game.__setstate__(STATE_CAVE_ALARM)

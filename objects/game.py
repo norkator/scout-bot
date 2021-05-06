@@ -53,7 +53,6 @@ class Game(object):
 
     def is_sleeping(self):
         current = time_utils.current_millis_time()
-        print(str(current) + ' / ' + str(self.sleep_millis))
         if self.sleep_millis is not 0 and current > self.sleep_millis:
             self.sleep_millis = 0
         return self.sleep_millis is not 0
