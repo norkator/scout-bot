@@ -29,114 +29,116 @@ def scout(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
 
-    if game.get_state() is STATE_BEGINNING:
-        tp = template_matcher.feature_matcher(window_frame, 'compass.png', game)
-        target_offset_x, target_offset_y = random_utils.random_point(
-            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
-        )
-        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
-        pyautogui.click()
-        game.__setstate__(STATE_CLICK_BOARD)
-
-    elif game.get_state() is STATE_CLICK_BOARD:
-        tp = template_matcher.feature_matcher(window_frame, 'board.png', game)
-        if tp[0] is None:
-            tp = template_matcher.feature_matcher(window_frame, 'board_2.png', game)  # try with another board image
-        if tp[0] is not None:
+    if game.is_sleeping():
+        print('[' + game.get_game_name() + '] is sleeping...')
+    else:
+        if game.get_state() is STATE_BEGINNING:
+            tp = template_matcher.feature_matcher(window_frame, 'compass.png', game)
             target_offset_x, target_offset_y = random_utils.random_point(
                 tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
             )
             move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
             pyautogui.click()
+            game.__setstate__(STATE_CLICK_BOARD)
+
+        elif game.get_state() is STATE_CLICK_BOARD:
+            tp = template_matcher.feature_matcher(window_frame, 'board.png', game)
+            if tp[0] is None:
+                tp = template_matcher.feature_matcher(window_frame, 'board_2.png', game)  # try with another board image
+            if tp[0] is not None:
+                target_offset_x, target_offset_y = random_utils.random_point(
+                    tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+                )
+                move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+                pyautogui.click()
+                game.__setstate__(STATE_MAKE_PARTY)
+                game.set_sleep(2)
+            else:
+                find_starting_point(game)
+
+        elif game.get_state() is STATE_MAKE_PARTY:
+            tp = template_matcher.feature_matcher(window_frame, 'make_party.png', game)
+            target_offset_x, target_offset_y = random_utils.random_point(
+                tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+            )
+            move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+            pyautogui.click()
+
+            # esc out from dialog
+            # pyautogui.press('esc')
+            game.__setstate__(STATE_CAVE_MARKER)
+            game.set_sleep(1)
+
+        elif game.get_state() is STATE_CAVE_MARKER:
+            tp = template_matcher.feature_matcher(window_frame, 'target_point.png', game)
+            target_offset_x, target_offset_y = random_utils.random_point(
+                tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+            )
+            move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+            pyautogui.click()
+            game.__setstate__(STATE_ENTER_CAVE)
+            game.set_sleep(6)
+
+        elif game.get_state() is STATE_ENTER_CAVE:
+            tp = template_matcher.feature_matcher(window_frame, 'cave_entrance.png', game)
+            target_offset_x, target_offset_y = random_utils.random_point(
+                tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+            )
+            move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+            pyautogui.click()
+
             time.sleep(2)
-            game.__setstate__(STATE_MAKE_PARTY)
-        else:
-            find_starting_point(game)
+            if cave_enter_success(game) is False:
+                home_point_1(game)
+            else:
+                game.__setstate__(STATE_IN_CAVE)
 
-    elif game.get_state() is STATE_MAKE_PARTY:
-        tp = template_matcher.feature_matcher(window_frame, 'make_party.png', game)
-        target_offset_x, target_offset_y = random_utils.random_point(
-            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
-        )
-        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
-        pyautogui.click()
+        elif game.get_state() is STATE_IN_CAVE:
+            print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] We have entered in the cave')
+            game.__setstate__(STATE_CAVE_DETECT_OPTIMAL_RAID)
 
-        # esc out from dialog
-        # pyautogui.press('esc')
-        time.sleep(1)
-        game.__setstate__(STATE_CAVE_MARKER)
+        elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
+            match_found = template_matcher.feature_matcher_match_found(
+                window_frame, 'find_raid', OPTIMAL_RAIDS, game, plot=True
+            )
+            if match_found is True:
+                game.__setstate__(STATE_CAVE_ALARM)
+            else:
+                game.__setstate__(STATE_CAVE_EXIT)
 
-    elif game.get_state() is STATE_CAVE_MARKER:
-        tp = template_matcher.feature_matcher(window_frame, 'target_point.png', game)
-        target_offset_x, target_offset_y = random_utils.random_point(
-            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
-        )
-        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
-        pyautogui.click()
+        elif game.get_state() is STATE_CAVE_EXIT:
+            # this tries to calculate position to leave cave
+            x_p = int(((game.x2 / 2) + game.x) * 60 / 100)
+            y_p = int(((game.y2 / 2) + game.y) * 99 / 100)
+            move_mouse.random_mouse_move(x_p, y_p, rnd=400, duration=0.5)
+            pyautogui.click()
+            time.sleep(2)
+            window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
+            tp = template_matcher.feature_matcher(window_frame, 'leave_cave.png', game)
+            target_offset_x, target_offset_y = random_utils.random_point(
+                tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+            )
+            move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+            pyautogui.click()
+            print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] exiting cave')
+            game.__setstate__(STATE_BEGINNING)
+            game.set_sleep(5)
 
-        time.sleep(6)
-        game.__setstate__(STATE_ENTER_CAVE)
+        elif game.get_state() is STATE_CAVE_ALARM:
+            bell = os.getcwd() + '/sounds/' + 'bell.wav'
+            playsound(bell)
+            playsound(bell)
+            playsound(bell)
+            alert = os.getcwd() + '/sounds/' + 'alert.wav'
+            playsound(alert)
+            game.__setstate__(STATE_CAVE_FINISHED)
 
-    elif game.get_state() is STATE_ENTER_CAVE:
-        tp = template_matcher.feature_matcher(window_frame, 'cave_entrance.png', game)
-        target_offset_x, target_offset_y = random_utils.random_point(
-            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
-        )
-        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
-        pyautogui.click()
+        elif game.get_state() is STATE_CAVE_FINISHED:
+            print('[' + game.get_game_name() + '] this window is in finished state (requiring reset)')
+            # Todo, maybe ad key to reset this?
 
-        time.sleep(2)
-        if cave_enter_success(game) is False:
-            home_point_1(game)
-        else:
-            game.__setstate__(STATE_IN_CAVE)
-
-    elif game.get_state() is STATE_IN_CAVE:
-        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] We have entered in the cave')
-        game.__setstate__(STATE_CAVE_DETECT_OPTIMAL_RAID)
-
-    elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
-        match_found = template_matcher.feature_matcher_match_found(
-            window_frame, 'find_raid', OPTIMAL_RAIDS, game, plot=True
-        )
-        if match_found is True:
-            game.__setstate__(STATE_CAVE_ALARM)
-        else:
-            game.__setstate__(STATE_CAVE_EXIT)
-
-    elif game.get_state() is STATE_CAVE_EXIT:
-        # this tries to calculate position to leave cave
-        x_p = int(((game.x2 / 2) + game.x) * 60 / 100)
-        y_p = int(((game.y2 / 2) + game.y) * 99 / 100)
-        move_mouse.random_mouse_move(x_p, y_p, rnd=400, duration=0.5)
-        pyautogui.click()
-        time.sleep(2)
-        window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
-        tp = template_matcher.feature_matcher(window_frame, 'leave_cave.png', game)
-        target_offset_x, target_offset_y = random_utils.random_point(
-            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
-        )
-        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
-        pyautogui.click()
-        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] exiting cave')
-        time.sleep(5)
-        game.__setstate__(STATE_BEGINNING)
-
-    elif game.get_state() is STATE_CAVE_ALARM:
-        bell = os.getcwd() + '/sounds/' + 'bell.wav'
-        playsound(bell)
-        playsound(bell)
-        playsound(bell)
-        alert = os.getcwd() + '/sounds/' + 'alert.wav'
-        playsound(alert)
-        game.__setstate__(STATE_CAVE_FINISHED)
-
-    elif game.get_state() is STATE_CAVE_FINISHED:
-        print('this window is in finished state')
-        # Todo, maybe ad key to reset this?
-
-    elif game.get_state() is KILL_PROCESS:
-        sys.exit(0)
+        elif game.get_state() is KILL_PROCESS:
+            sys.exit(0)
 
 
 # test scout vie finding specific object
@@ -186,7 +188,7 @@ def home_point_1(game):
         find_starting_point(game)
     else:
         print('[E] cannot find home point!!!')
-        game.__setstate__(KILL_PROCESS)
+        game.__setstate__(STATE_CAVE_FINISHED)
 
 
 def find_starting_point(game):

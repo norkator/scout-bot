@@ -1,3 +1,5 @@
+from module import time_utils
+
 class Game(object):
 
     # Class constructor
@@ -10,6 +12,7 @@ class Game(object):
         self.strategy = strategy  # game strategy
         self.state = state
         self.paused = False
+        self.sleep_millis = None
 
     def print_game(self):
         print(self.x, self.y, self.x2, self.y2, self.strategy)
@@ -46,3 +49,12 @@ class Game(object):
 
     def reset_state(self):
         self.state = 1
+
+    def is_sleeping(self):
+        current = time_utils.current_millis_time()
+        if current > self.sleep_millis:
+            self.sleep_millis = None
+        return self.sleep_millis is not None
+
+    def set_sleep(self, seconds):
+        self.sleep_millis = time_utils.current_millis_time() + (seconds * 1000)
