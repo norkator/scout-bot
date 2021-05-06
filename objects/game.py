@@ -1,5 +1,6 @@
 from module import time_utils
 
+
 class Game(object):
 
     # Class constructor
@@ -52,9 +53,14 @@ class Game(object):
 
     def is_sleeping(self):
         current = time_utils.current_millis_time()
+        print(str(current) + ' / ' + str(self.sleep_millis))
         if self.sleep_millis is not 0 and current > self.sleep_millis:
             self.sleep_millis = 0
         return self.sleep_millis is not 0
 
     def set_sleep(self, seconds):
-        self.sleep_millis = time_utils.current_millis_time() + (seconds * 1000)
+        m = time_utils.current_millis_time()
+        self.sleep_millis = m + (seconds * 1000)
+
+    def get_sleep_millis(self):
+        return self.sleep_millis

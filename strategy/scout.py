@@ -31,9 +31,7 @@ def scout(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
 
-    if game.is_sleeping():
-        print('[' + game.get_game_name() + '] is sleeping...')
-    else:
+    if game.is_sleeping() is False:
         if game.get_state() is STATE_BEGINNING:
             tp = template_matcher.feature_matcher(window_frame, 'compass.png', game)
             if tp[0] is None:
@@ -58,7 +56,7 @@ def scout(game):
                 move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
                 pyautogui.click()
                 game.__setstate__(STATE_MAKE_PARTY)
-                game.set_sleep(2)
+                game.set_sleep(4)
             else:
                 find_starting_point(game)
 
@@ -111,6 +109,7 @@ def scout(game):
             if match_found is True:
                 game.__setstate__(STATE_CAVE_ALARM)
             else:
+                time.sleep(5)  # Todo, remote this later!
                 game.__setstate__(STATE_CAVE_EXIT)
 
         elif game.get_state() is STATE_CAVE_EXIT:

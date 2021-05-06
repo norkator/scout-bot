@@ -46,7 +46,7 @@ def find_matching_position(input_image, to_find_image, matcher_method, min_match
 
 
 # match one image, return matched point
-def feature_matcher(input_image, match_image, game, plot=True, im_show=False):
+def feature_matcher(input_image, match_image, game, plot=False, im_show=False):
     template_image = os.getcwd() + '/images/' + match_image
     target_point = find_matching_position(
         input_image, template_image, 'cv.TM_CCOEFF_NORMED', plot=plot, im_show=im_show
