@@ -62,16 +62,16 @@ def scout(game):
 
         elif game.get_state() is STATE_MAKE_PARTY:
             tp = template_matcher.feature_matcher(window_frame, 'make_party.png', game)
-            target_offset_x, target_offset_y = random_utils.random_point(
-                tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
-            )
-            move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
-            pyautogui.click()
-
-            # esc out from dialog
-            # pyautogui.press('esc')
-            game.__setstate__(STATE_CAVE_MARKER)
-            game.set_sleep(1)
+            if tp[0] is not None:
+                target_offset_x, target_offset_y = random_utils.random_point(
+                    tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+                )
+                move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
+                pyautogui.click()
+                game.__setstate__(STATE_CAVE_MARKER)
+                game.set_sleep(1)
+            else:
+                find_starting_point(game)
 
         elif game.get_state() is STATE_CAVE_MARKER:
             tp = template_matcher.feature_matcher(window_frame, 'target_point.png', game)
@@ -183,7 +183,7 @@ def home_point_1(game):
         )
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
         pyautogui.click()
-        time.sleep(5)
+        time.sleep(8)
         find_starting_point(game)
     else:
         print('[E] cannot find home point!!!')
