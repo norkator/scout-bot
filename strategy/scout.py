@@ -20,8 +20,9 @@ STATE_CAVE_FINISHED = 12
 KILL_PROCESS = 666
 
 OPTIMAL_RAIDS = [
-    'raid_1.png',
-    'raid_2.png'
+    'raid__1.png', 'raid__2.png', 'raid__3.png', 'raid__4.png', 'raid__5.png', 'raid__6.png', 'raid__7.png', 'raid__8.png',
+    'raid__9.png', 'raid__10.png', 'raid__11.png', 'raid__12.png', 'raid__13.png', 'raid__14.png', 'raid__15.png',
+    'raid__16.png', 'raid__17.png', 'raid__18.png', 'raid__19.png', 'raid__20.png'
 ]
 
 
@@ -99,7 +100,8 @@ def scout(game):
 
         elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
             match_found = template_matcher.feature_matcher_match_found(
-                window_frame, 'find_raid', OPTIMAL_RAIDS, game, plot=True
+                window_frame, 'find_raid', OPTIMAL_RAIDS, game,
+                min_match_quality=0.8, plot=True
             )
             if match_found is True:
                 game.__setstate__(STATE_CAVE_ALARM)
@@ -161,7 +163,7 @@ def scout_test(game):
 
     # template_matcher.feature_matcher(window_frame, 'make_party.png', game, plot=True)
 
-    # template_matcher.feature_matcher_match_found(window_frame, 'find_raid', ['raid_1.png'], game, plot=True)
+    # template_matcher.feature_matcher_match_found(window_frame, 'find_raid', ['raid__1.png'], game, plot=True)
 
     # template_matcher.feature_matcher(window_frame, 'leave_cave.png', game, plot=True)
 

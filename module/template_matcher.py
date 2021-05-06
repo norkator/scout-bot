@@ -7,11 +7,10 @@ import os
     # 'cv.TM_CCORR_NORMED', 'cv.TM_SQDIFF', 'cv.TM_SQDIFF_NORMED']
 '''
 
-MIN_MATCH_QUALITY = 0.7
-
 
 # use template matching to find something from image
-def find_matching_position(input_image, to_find_image, matcher_method, plot=False, im_show=False):
+def find_matching_position(input_image, to_find_image, matcher_method, min_match_quality=0.7, plot=False,
+                           im_show=False):
     img2 = input_image
     template = cv.imread(to_find_image, 0)
     w, h = template.shape[::-1]
@@ -20,7 +19,7 @@ def find_matching_position(input_image, to_find_image, matcher_method, plot=Fals
     # Apply template Matching
     res = cv.matchTemplate(img, template, method)
     min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
-    if max_val > MIN_MATCH_QUALITY:
+    if max_val > min_match_quality:
         # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
         if method in [cv.TM_SQDIFF, cv.TM_SQDIFF_NORMED]:
             top_left = min_loc
@@ -57,11 +56,14 @@ def feature_matcher(input_image, match_image, game, plot=True, im_show=False):
 
 
 # needs images as array
-def feature_matcher_match_found(input_image, folder, match_images, game, plot=True, im_show=False):
+def feature_matcher_match_found(input_image, folder, match_images, game,
+                                min_match_quality=0.7, plot=True, im_show=False):
     for match_image in match_images:
         template_image = os.getcwd() + '/images/' + folder + '/' + match_image
         tp = find_matching_position(
-            input_image, template_image, 'cv.TM_CCOEFF_NORMED', plot=plot, im_show=im_show
+            input_image, template_image, 'cv.TM_CCOEFF_NORMED',
+            min_match_quality=min_match_quality,
+            plot=plot, im_show=im_show
         )
         print('[ST' + str(game.get_state()) + '] trying to find match: ' + str(tp))
         if tp[0] is not None:
