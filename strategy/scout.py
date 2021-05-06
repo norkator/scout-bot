@@ -102,11 +102,13 @@ def scout(game):
             game.__setstate__(STATE_CAVE_DETECT_OPTIMAL_RAID)
 
         elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
-            match_found = template_matcher.feature_matcher_match_found(
-                window_frame, 'find_raid', OPTIMAL_RAIDS, game,
-                min_match_quality=0.9, plot=True
-            )
-            if match_found is True:
+            # match_found = template_matcher.feature_matcher_match_found(
+            #     window_frame, 'find_raid', OPTIMAL_RAIDS, game,
+            #     min_match_quality=0.9, plot=True
+            # )
+            # if match_found is True:
+            tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game)
+            if tp[0] is None:
                 game.__setstate__(STATE_CAVE_ALARM)
             else:
                 game.__setstate__(STATE_CAVE_EXIT)
@@ -222,3 +224,4 @@ def click_exit_cave(game, x_p=60, y_p=99):
     move_mouse.random_mouse_move(x_p, y_p, rnd=400, duration=0.5)
     pyautogui.click()
     time.sleep(2)
+

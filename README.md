@@ -11,6 +11,7 @@ Table of contents
 * [Samples](#samples)
 * [Troubleshooting](#troubleshooting)
 * [Hints](#hints)
+* [Plugin config](#plugin-config)
 
 
 
@@ -80,4 +81,25 @@ Some command hints for python
 See installed libraries and their version.
 ```shell script
 pip freeze
+```
+
+
+Plugin config
+============
+
+![xeric-config](./docs/xeric_config.png)
+
+```txt
+Ice demon, Vanguards, thieving,
+```
+
+```txt
+Vespula,Tekton,Vasa
+Vasa,Tekton,Vespula
+Vespula,Tekton,Vasa,Guardians
+Muttadiles,Shamans,Mystics
+Mystics,Shamans,Muttadiles
+Muttadiles,Guardians,Vespula
+Tekton,Muttadiles,Guardians
+Muttadiles,Tekton,Mystics
 ```
