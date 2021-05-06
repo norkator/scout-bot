@@ -38,7 +38,7 @@ def scout(game):
             tp = template_matcher.feature_matcher(window_frame, 'compass.png', game)
             if tp[0] is None:
                 game.__setstate__(STATE_BEGINNING)
-                play_sound('wpn_select')
+                play_sound('wpn_select.wav')
             else:
                 target_offset_x, target_offset_y = random_utils.random_point(
                     tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
