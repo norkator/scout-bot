@@ -96,9 +96,9 @@ def scout(game):
             game.set_sleep(4)
 
         elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
-            tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.5, plot=True)
-            if tp[0] is None:  # does not find bad raid
+            if is_not_bad_raid(window_frame, game):
                 game.__setstate__(STATE_CAVE_ALARM)
+                open_raid_reloader(game)
             else:
                 game.__setstate__(STATE_CAVE_EXIT)
 
@@ -138,7 +138,8 @@ def scout(game):
 def scout_test(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
-    template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=True)
+    # template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.3, plot=True)
+    template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png', game, min_match_quality=0.6, plot=True)
     # compass detection test
     # template_matcher.feature_matcher(window_frame, 'compass.png', game, plot=True)
     # board detection test
@@ -195,6 +196,11 @@ def find_starting_point(game):
         game.__setstate__(STATE_BEGINNING)
 
 
+def is_not_bad_raid(window_frame, game):
+    tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=True)
+    return True if tp[0] is None else False  # does not find bad raid
+
+
 def play_sound(sound_name):
     alert = os.getcwd() + '/sounds/' + sound_name
     playsound(alert)
@@ -207,3 +213,55 @@ def click_exit_cave(game, x_p=60, y_p=99):
     move_mouse.random_mouse_move(x_p, y_p, rnd=400, duration=0.5)
     pyautogui.click()
     time.sleep(2)
+
+
+def open_raid_reloader(game):
+    window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
+    tp = template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png',
+                                          game, min_match_quality=0.6, plot=True)
+    if tp[0] is not None:
+        target_offset_x, target_offset_y = random_utils.random_point(
+            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
+        )
+        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=300, duration=0.5)
+        pyautogui.click()
+        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] open raid reloader')
+    else:
+        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] failed to open reload raid!')
+
+
+def close_raid_reloader(game):
+    w2 = 280  # 280 pixels more on x2
+    window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2 + w2, game.y2, im_show=False)
+    tp = template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png',
+                                          game, min_match_quality=0.6, plot=True)
+    if tp[0] is not None:
+        target_offset_x, target_offset_y = random_utils.random_point(
+            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x + w2, tp[3] + game.y
+        )
+        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=300, duration=0.5)
+        pyautogui.click()
+        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] close raid reloader')
+
+
+def reload_raid(game):
+    w2 = 280  # 280 pixels more on x2
+    window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2 + w2, game.y2, im_show=False)
+    tp = template_matcher.feature_matcher(window_frame, 'reload_raid.png',
+                                          game, min_match_quality=0.6, plot=True)
+    if tp[0] is not None:
+        target_offset_x, target_offset_y = random_utils.random_point(
+            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x + w2, tp[3] + game.y
+        )
+        move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=250, duration=0.2)
+        pyautogui.click()
+        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] click raid reloader button')
+        time.sleep(5)
+        window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2 + w2, game.y2, im_show=False)
+        if is_not_bad_raid(window_frame, game):
+            game.__setstate__(STATE_CAVE_ALARM)
+        else:
+            game.__setstate__(STATE_CAVE_EXIT)
+        close_raid_reloader(game)
+    else:
+        print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] failed to reload raid!')
