@@ -138,7 +138,7 @@ def scout(game):
 def scout_test(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
-    # template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.5, plot=True)
+    template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=True)
     # compass detection test
     # template_matcher.feature_matcher(window_frame, 'compass.png', game, plot=True)
     # board detection test
