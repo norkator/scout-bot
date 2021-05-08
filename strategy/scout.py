@@ -226,6 +226,7 @@ def open_raid_reloader(game):
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=300, duration=0.5)
         pyautogui.click()
         print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] open raid reloader')
+        reload_raid(game)
     else:
         print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] failed to open reload raid!')
 
@@ -237,7 +238,7 @@ def close_raid_reloader(game):
                                           game, min_match_quality=0.6, plot=True)
     if tp[0] is not None:
         target_offset_x, target_offset_y = random_utils.random_point(
-            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x + w2, tp[3] + game.y
+            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
         )
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=300, duration=0.5)
         pyautogui.click()
@@ -251,7 +252,7 @@ def reload_raid(game):
                                           game, min_match_quality=0.6, plot=True)
     if tp[0] is not None:
         target_offset_x, target_offset_y = random_utils.random_point(
-            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x + w2, tp[3] + game.y
+            tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
         )
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=250, duration=0.2)
         pyautogui.click()
