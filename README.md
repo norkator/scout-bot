@@ -37,7 +37,8 @@ Install
 
 1. Install Python 3.6 https://www.python.org/downloads/release/python-3613/
 2. `pip install -r requirements.txt` to install needed dependencies.
-3. Get game window position with `Mouse.py` script. Positions are left top and bottom right corners.
+3. Rename `config_template.ini` into `config.ini`
+4. Get game window position with `Mouse.py` script. Positions are left top and bottom right corners.
     ```text
     0,0       X increases -->
     +---------------------------+
@@ -49,14 +50,14 @@ Install
     |                           |
     +---------------------------+ 1919, 1079
     ```
-4. Define configuration separating them by `;` and defining target strategy.
+5. Define configuration separating them by `;` and defining target strategy.
     ```ini
     [bot]
     game_names=RUNE1;RUNE2
     game_frames=0,80,1100,700;0,80,1100,700
     strategies=scout;scout
     ```
-5. Run `Scout.py` 
+6. Run `Scout.py` 
 
 
 
