@@ -6,6 +6,7 @@ RuneScape scout bot machine vision project for scouting.
 
 Table of contents
 =================
+* [Test Account](#test-account)
 * [Documents](#documents)
 * [Infrastructure](#infrastructure)
 * [Install](#install)
@@ -16,6 +17,11 @@ Table of contents
     * [CoX Scouter External](#cox-scouter-external)
     * [Chambers Of Xeric](#chambers-of-xeric)
 
+
+
+Test Account
+============
+Adam.arvid@hotmail.com / J---S-------837373
 
 
 Documents
