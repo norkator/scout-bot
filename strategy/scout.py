@@ -74,7 +74,7 @@ def scout(game):
             move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
             pyautogui.click()
             game.__setstate__(STATE_ENTER_CAVE)
-            game.set_sleep(7)
+            game.set_sleep(9)
 
         elif game.get_state() is STATE_ENTER_CAVE:
             tp = template_matcher.feature_matcher(window_frame, 'cave_entrance.png', game)
@@ -139,7 +139,8 @@ def scout_test(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
     # template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.3, plot=True)
-    template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png', game, min_match_quality=0.6, plot=True)
+    # template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png', game, min_match_quality=0.6, plot=True)
+    template_matcher.feature_matcher(window_frame, 'reload_raid.png', game, min_match_quality=0.4, plot=True)
     # compass detection test
     # template_matcher.feature_matcher(window_frame, 'compass.png', game, plot=True)
     # board detection test
