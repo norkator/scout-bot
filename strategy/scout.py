@@ -96,11 +96,11 @@ def scout(game):
             game.set_sleep(4)
 
         elif game.get_state() is STATE_CAVE_DETECT_OPTIMAL_RAID:
-            if is_not_bad_raid(window_frame, game):
+            if is_bad_raid(window_frame, game):
+                game.__setstate__(STATE_CAVE_EXIT)
+            else:
                 game.__setstate__(STATE_CAVE_ALARM)
                 open_raid_reloader(game)
-            else:
-                game.__setstate__(STATE_CAVE_EXIT)
 
         elif game.get_state() is STATE_CAVE_EXIT:
             click_exit_cave(game=game, x_p=60, y_p=80)
@@ -138,7 +138,7 @@ def scout(game):
 def scout_test(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
-    print(is_not_bad_raid(window_frame, game))
+    # print(is_bad_raid(window_frame, game))
     # click_exit_cave(game=game, x_p=60, y_p=80)
     # template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.3, plot=True)
     # template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png', game, min_match_quality=0.6, plot=True)
@@ -199,9 +199,9 @@ def find_starting_point(game):
         game.__setstate__(STATE_BEGINNING)
 
 
-def is_not_bad_raid(window_frame, game):
+def is_bad_raid(window_frame, game):
     tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=True)
-    return True if tp[0] is None else False  # does not find bad raid
+    return False if tp[0] is None else True  # does not find bad raid
 
 
 def play_sound(sound_name):
@@ -263,10 +263,10 @@ def reload_raid(game):
         print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] click raid reloader button')
         time.sleep(5)
         window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2 + w2, game.y2, im_show=False)
-        if is_not_bad_raid(window_frame, game):
-            game.__setstate__(STATE_CAVE_ALARM)
-        else:
+        if is_bad_raid(window_frame, game):
             game.__setstate__(STATE_CAVE_EXIT)
+        else:
+            game.__setstate__(STATE_CAVE_ALARM)
         close_raid_reloader(game)
     else:
         print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] failed to reload raid!')
