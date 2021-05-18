@@ -200,7 +200,7 @@ def find_starting_point(game):
 
 
 def is_bad_raid(window_frame, game):
-    tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=True)
+    tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=False)
     return False if tp[0] is None else True  # does not find bad raid
 
 
@@ -261,12 +261,13 @@ def reload_raid(game):
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=250, duration=0.2)
         pyautogui.click()
         print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] click raid reloader button')
-        time.sleep(5)
+        time.sleep(3)
+        close_raid_reloader(game)
+        time.sleep(1)
         window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2 + w2, game.y2, im_show=False)
         if is_bad_raid(window_frame, game):
             game.__setstate__(STATE_CAVE_EXIT)
         else:
             game.__setstate__(STATE_CAVE_ALARM)
-        close_raid_reloader(game)
     else:
         print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] failed to reload raid!')
