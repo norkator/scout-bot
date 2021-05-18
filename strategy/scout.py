@@ -74,7 +74,7 @@ def scout(game):
             move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=400, duration=0.5)
             pyautogui.click()
             game.__setstate__(STATE_ENTER_CAVE)
-            game.set_sleep(10)
+            game.set_sleep(8)
 
         elif game.get_state() is STATE_ENTER_CAVE:
             tp = template_matcher.feature_matcher(window_frame, 'cave_entrance.png', game)

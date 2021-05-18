@@ -97,6 +97,10 @@ pip freeze
 Plugin config
 ============
 
+RaidReloader
+-----
+RaidReloader must be installed.
+
 CoX Scouter External
 -----
 ![cox_scouter_external](./docs/cox_scouter_external.png)
