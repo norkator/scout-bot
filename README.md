@@ -94,6 +94,14 @@ pip freeze
 ```
 
 
+
+RuneLite settings
+============
+Check RuneLite settings overlay color opacity.
+
+![runelite_settings](./docs/runelite_settings.png)
+
+
 Plugin config
 ============
 

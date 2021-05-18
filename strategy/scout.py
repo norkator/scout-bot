@@ -138,6 +138,7 @@ def scout(game):
 def scout_test(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
+    print(is_not_bad_raid(window_frame, game))
     # click_exit_cave(game=game, x_p=60, y_p=80)
     # template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.3, plot=True)
     # template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png', game, min_match_quality=0.6, plot=True)
@@ -199,7 +200,7 @@ def find_starting_point(game):
 
 
 def is_not_bad_raid(window_frame, game):
-    tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=False)
+    tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=True)
     return True if tp[0] is None else False  # does not find bad raid
 
 
