@@ -39,9 +39,9 @@ def scout(game):
                 game.__setstate__(STATE_CLICK_BOARD)
 
         elif game.get_state() is STATE_CLICK_BOARD:
-            tp = template_matcher.feature_matcher(window_frame, 'board.png', game)
+            tp = template_matcher.feature_matcher(window_frame, 'board_2.png', game)
             if tp[0] is None:
-                tp = template_matcher.feature_matcher(window_frame, 'board_2.png', game)  # try with another board image
+                tp = template_matcher.feature_matcher(window_frame, 'board.png', game)  # try with another board image
             if tp[0] is not None:
                 target_offset_x, target_offset_y = random_utils.random_point(
                     tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
@@ -219,7 +219,7 @@ def click_exit_cave(game, x_p=60, y_p=99):
 def open_raid_reloader(game):
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
     tp = template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png',
-                                          game, min_match_quality=0.6, plot=True)
+                                          game, min_match_quality=0.6, plot=False)
     if tp[0] is not None:
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
@@ -227,6 +227,7 @@ def open_raid_reloader(game):
         move_mouse.random_mouse_move(target_offset_x, target_offset_y, rnd=300, duration=0.5)
         pyautogui.click()
         print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] open raid reloader')
+        time.sleep(1)
         reload_raid(game)
     else:
         print('[' + game.get_game_name() + '][' + str(game.get_state()) + '] failed to open reload raid!')
