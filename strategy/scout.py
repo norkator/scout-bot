@@ -103,11 +103,11 @@ def scout(game):
                 game.__setstate__(STATE_CAVE_EXIT)
 
         elif game.get_state() is STATE_CAVE_EXIT:
-            click_exit_cave(game=game, x_p=60, y_p=99)
+            click_exit_cave(game=game, x_p=60, y_p=80)
             window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
             tp = template_matcher.feature_matcher(window_frame, 'leave_cave.png', game)
             if tp[0] is None:
-                click_exit_cave(game=game, x_p=80, y_p=99)  # try with another point
+                click_exit_cave(game=game, x_p=80, y_p=80)  # try with another point
                 window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
                 tp = template_matcher.feature_matcher(window_frame, 'leave_cave.png', game)
             target_offset_x, target_offset_y = random_utils.random_point(
@@ -138,9 +138,10 @@ def scout(game):
 def scout_test(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
+    # click_exit_cave(game=game, x_p=60, y_p=80)
     # template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.3, plot=True)
     # template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png', game, min_match_quality=0.6, plot=True)
-    template_matcher.feature_matcher(window_frame, 'reload_raid.png', game, min_match_quality=0.4, plot=True)
+    # template_matcher.feature_matcher(window_frame, 'reload_raid.png', game, min_match_quality=0.4, plot=True)
     # compass detection test
     # template_matcher.feature_matcher(window_frame, 'compass.png', game, plot=True)
     # board detection test
@@ -208,7 +209,7 @@ def play_sound(sound_name):
 
 
 # this tries to calculate position to leave cave
-def click_exit_cave(game, x_p=60, y_p=99):
+def click_exit_cave(game, x_p, y_p):
     x_p = int(((game.x2 / 2) + game.x) * x_p / 100)
     y_p = int(((game.y2 / 2) + game.y) * y_p / 100)
     move_mouse.random_mouse_move(x_p, y_p, rnd=400, duration=0.5)
@@ -237,7 +238,7 @@ def close_raid_reloader(game):
     w2 = 280  # 280 pixels more on x2
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2 + w2, game.y2, im_show=False)
     tp = template_matcher.feature_matcher(window_frame, 'raid_reload_toggle.png',
-                                          game, min_match_quality=0.6, plot=True)
+                                          game, min_match_quality=0.6, plot=False)
     if tp[0] is not None:
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
@@ -251,7 +252,7 @@ def reload_raid(game):
     w2 = 280  # 280 pixels more on x2
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2 + w2, game.y2, im_show=False)
     tp = template_matcher.feature_matcher(window_frame, 'reload_raid.png',
-                                          game, min_match_quality=0.6, plot=True)
+                                          game, min_match_quality=0.6, plot=False)
     if tp[0] is not None:
         target_offset_x, target_offset_y = random_utils.random_point(
             tp[0] + game.x, tp[1] + game.y, tp[2] + game.x, tp[3] + game.y
