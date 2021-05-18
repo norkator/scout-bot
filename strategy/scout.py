@@ -197,7 +197,7 @@ def find_starting_point(game):
 
 
 def is_not_bad_raid(window_frame, game):
-    tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=True)
+    tp = template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.4, plot=False)
     return True if tp[0] is None else False  # does not find bad raid
 
 
