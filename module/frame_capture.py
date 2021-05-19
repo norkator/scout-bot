@@ -3,9 +3,9 @@ import numpy as np
 import cv2
 
 
-def capture_window_frame(x, y, width, height, im_show=False):
+def capture_window_frame(x, y, x2, y2, im_show=False):
     # bbox specifies specific region (bbox= x,y,width,height *starts top-left)
-    img = ImageGrab.grab(include_layered_windows=True, all_screens=True, bbox=(x, y, width, height))
+    img = ImageGrab.grab(include_layered_windows=True, all_screens=True, bbox=(x, y, x2, y2))
     img_np = np.array(img)  # this is the array obtained from conversion
     frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
     if im_show:
@@ -15,8 +15,8 @@ def capture_window_frame(x, y, width, height, im_show=False):
     return frame
 
 
-def capture_window_frame_continuous(x, y, width, height, im_show=False):
-    img = ImageGrab.grab(include_layered_windows=True, all_screens=True, bbox=(x, y, width, height))
+def capture_window_frame_continuous(x, y, x2, y2, im_show=False):
+    img = ImageGrab.grab(include_layered_windows=True, all_screens=True, bbox=(x, y, x2, y2))
     img_np = np.array(img)
     frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
     if im_show:
