@@ -138,6 +138,7 @@ def scout(game):
 def scout_test(game):
     # window frame capture
     window_frame = frame_capture.capture_window_frame(game.x, game.y, game.x2, game.y2, im_show=False)
+    # move_mouse.random_mouse_move(game.x, game.y, rnd=400, duration=0.5)
     # print(is_bad_raid(window_frame, game))
     # click_exit_cave(game=game, x_p=60, y_p=80)
     # template_matcher.feature_matcher(window_frame, 'bad_raid.png', game, min_match_quality=0.3, plot=True)
