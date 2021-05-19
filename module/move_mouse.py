@@ -11,6 +11,9 @@ pyautogui.MINIMUM_DURATION = 0  # Default: 0.1
 pyautogui.MINIMUM_SLEEP = 0  # Default: 0.05
 # The number of seconds to pause after EVERY public function call.
 pyautogui.PAUSE = 0  # Default: 0.1
+# "PyAutoGUI fail-safe triggered from mouse moving to a corner of the screen.
+# To disable this fail-safe, set pyautogui.FAILSAFE to False. DISABLING FAIL-SAFE IS NOT RECOMMENDED."
+pyautogui.FAILSAFE = False
 
 
 def random_mouse_move(target_x, target_y, rnd=500, duration=0.1):
